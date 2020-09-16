@@ -3,6 +3,17 @@
     let cityInput;
     let metric = true;
 
+    document.getElementById("celcius").addEventListener("click", function () {
+        metric = true;
+        document.getElementById("fahrenheit").disabled = false;
+        document.getElementById("celcius").disabled = true;
+    })
+
+    document.getElementById("fahrenheit").addEventListener("click", function () {
+        metric = false;
+        document.getElementById("celcius").disabled = false;
+        document.getElementById("fahrenheit").disabled = true;
+    })
 
     document.getElementById("run").addEventListener("click", function () {
         checkInput();
