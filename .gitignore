@@ -42,3 +42,4 @@ node_modules/
 index.scss
 index.css.map
 package-lock.json
+config.js
