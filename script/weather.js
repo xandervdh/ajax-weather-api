@@ -42,7 +42,13 @@
     }
 
     function printWeek(array) {
-
+        const weekTarget = document.getElementById("weatherWeek");
+        weekTarget.innerText = array.city;
+        for (let i = 0; i < array.temp.length; i++){
+            let element = document.createElement("p");
+            element.textContent = array.temp[i];
+            weekTarget.append(element);
+        }
     }
 
     function getTemp(data, array) {
