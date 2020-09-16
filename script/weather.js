@@ -1,5 +1,5 @@
 (()=>{
-
+    const key = config.API_KEY;
     let cityInput;
 
     document.getElementById("run").addEventListener("click", function (){
