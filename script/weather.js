@@ -1,30 +1,44 @@
-(()=>{
+(() => {
     const key = config.API_KEY;
     let cityInput;
+    let metric = true;
 
-    document.getElementById("run").addEventListener("click", function (){
+
+    document.getElementById("run").addEventListener("click", function () {
         checkInput();
-        let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + "&appid="
-        fetchData(url, getCoords);
+        let units;
+        if (metric == true){
+            units = "&units=metric";
+        }else {
+            units = "";
+        }
+        let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + units + "&appid=";
+        fetchData(url, getWeek);
     })
 
     function fetchData(url, func) {
         fetch(url + key)
             .then(response => response.json())
-            .then (data => func(data))
-    }
-
-    function getCoords(data) {
-        console.log(data);
-        let lon = data.city.coord.lon;
-        let lat = data.city.coord.lat;
-        let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=";
-        fetchData(url, getWeek);
+            .then(data => func(data))
     }
 
     function getWeek(data) {
         console.log(data);
+        let weatherObj = new weather(data)
+        weatherObj.temp = getTemp(data, weatherObj);
+        console.log(weatherObj.temp);
+        printWeek(weatherObj);
+    }
 
+    function printWeek(array) {
+
+    }
+
+    function getTemp(data, array) {
+        for (let i = 0; i < 5; i++) {
+            array.temp.push(data.list[i].main.temp);
+        }
+        return array.temp;
     }
 
     function checkInput() {
