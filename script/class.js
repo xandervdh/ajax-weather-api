@@ -1,7 +1,10 @@
 class weather {
     city = "";
+    country = "";
     temp = [];
+    icon = [];
+    date = [];
     constructor(data) {
-        this.city = data.city.name;
+
     }
 }
