@@ -3,6 +3,7 @@
     const unsplashKey = config.UNSPLASH_KEY;
     let unit = " \u00B0C";
     let cityInput;
+    let countryCode;
     let metric = true;
     let city;
     let country;
@@ -35,7 +36,7 @@
         } else {
             units = "";
         }
-        let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + units + "&appid=" + key;
+        let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + countryCode + units + "&appid=" + key;
         let urlPicture = "https://api.unsplash.com/photos/random?query=" + cityInput + "&client_id=" + unsplashKey;
         fetchData(url, getOneCall);
         fetchData(urlPicture, getUnsplash)
@@ -128,7 +129,7 @@
             let morning = data.daily[i].temp.morn;
             let sumTemp = day + evening + night + morning;
             let average = Math.floor(sumTemp/4);
-            array.temp.push(average + unit);
+            array.temp.push("average " + average + unit);
         }
         return array.temp;
     }
@@ -153,11 +154,20 @@
     }
 
     function checkInput() {
-        cityInput = document.getElementById("cityinput").value;
+        cityInput = document.getElementById("cityInput").value;
         cityInput = cityInput.replace(/[^a-zA-Z0-9 -]/g, "");
         cityInput = cityInput.replace(/[0-9]/g, "");
         cityInput = cityInput.toLowerCase();
         cityInput = cityInput.replace(" ", "%20");
+        if (document.getElementById("countryCode")!== ""){
+            countryCode = document.getElementById("countryCode").value;
+            countryCode = countryCode.replace(/[^a-zA-Z0-9 -]/g, "");
+            countryCode = countryCode.replace(/[0-9]/g, "");
+            countryCode = countryCode.toUpperCase();
+            countryCode = "," + countryCode;
+        } else {
+            countryCode = ""
+        }
     }
 
 })();
