@@ -1,5 +1,6 @@
 (() => {
     const key = config.API_KEY;
+    const unsplashKey = config.UNSPLASH_KEY;
     let unit = " \u00B0C";
     let cityInput;
     let metric = true;
