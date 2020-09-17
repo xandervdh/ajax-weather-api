@@ -22,8 +22,13 @@ https://github.com/becodeorg/atw-giertz-3-23/tree/master/2.The-Hills/js/weather-
 #### Updates
 
 - got a key for the api and made shore it doesn't show in my code
-- finished the fetsh to get the data that needs to be shown
-- struggled a bit with making a class and loging it in the console
-- figured out that i need to use another name for the varriable then the name of the class
-
-
+- finished first fetch to get the data that needs to be shown
+- struggled a bit with making a class and logging it in the console
+- figured out that I need to use another name for the variable then the name of the class
+- made a second fetch to get the weather for the next 7 days
+- filled my class with everything I need
+- figured out how to print to html
+- started styling the page
+- looked at the api to get the picture
+- I am able to get the picture from the api
+- finished styling, still have to see where I'm going to put the picture
