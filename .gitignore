@@ -1,6 +1,6 @@
 .idea/
 node_modules/
-.scss
-.css.map
+style.scss
+style.css.map
 package-lock.json
 config.js
