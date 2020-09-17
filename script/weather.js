@@ -35,14 +35,24 @@
         } else {
             units = "";
         }
-        let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + units + "&appid=";
+        let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + units + "&appid=" + key;
+        let urlPicture = "https://api.unsplash.com/photos/random?query=" + cityInput + "&client_id=" + unsplashKey;
         fetchData(url, getOneCall);
+        fetchData(urlPicture, getUnsplash)
     })
 
     function fetchData(url, func) {
-        fetch(url + key)
+        fetch(url)
             .then(response => response.json())
             .then(data => func(data))
+    }
+
+    function getUnsplash(data){
+        console.log(data);
+        let target = document.getElementById("weather");
+        let url = data.urls.full;
+        console.log(url);
+        document.body.style.backgroundImage = "url('" + url + "')";
     }
 
     function getOneCall(data) {
@@ -57,7 +67,7 @@
             } else {
                 units = "";
             }
-            let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + units + "&exclude=current,hourly,minutely&appid=";
+            let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + units + "&exclude=current,hourly,minutely&appid=" + key;
             fetchData(url, getClass);
         } else {
             alert("this country doesn't exist! \n check if you made a mistake");
