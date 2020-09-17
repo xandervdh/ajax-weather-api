@@ -52,7 +52,6 @@
         let target = document.getElementById("weather");
         let url = data.urls.full;
         console.log(url);
-        document.body.style.backgroundImage = "url('" + url + "')";
     }
 
     function getOneCall(data) {
