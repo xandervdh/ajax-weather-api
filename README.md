@@ -21,3 +21,9 @@ https://github.com/becodeorg/atw-giertz-3-23/tree/master/2.The-Hills/js/weather-
 
 #### Updates
 
+- got a key for the api and made shore it doesn't show in my code
+- finished the fetsh to get the data that needs to be shown
+- struggled a bit with making a class and loging it in the console
+- figured out that i need to use another name for the varriable then the name of the class
+
+
