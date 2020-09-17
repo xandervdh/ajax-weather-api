@@ -86,14 +86,15 @@ body {
 }
 
 #celcius {
-  box-shadow: inset 0px -3px 7px 0px #29bbff;
-  background: linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
-  background-color: #2dabf9;
+  margin: 20px;
+  margin-right: 5px;
+  box-shadow: inset 0px -3px 7px 0px #da8e00;
+  background: linear-gradient(to bottom, #ffbf00 5%, #cca20c 100%);
+  border: 1px solid #0b0e07;
   border-radius: 4px;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
-  font-family: Arial;
   font-size: 15px;
   padding: 9px 23px;
   text-decoration: none;
@@ -101,8 +102,61 @@ body {
 }
 
 #celcius:hover {
-  background: linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
-  background-color: #0688fa;
+  background: linear-gradient(to bottom, #cca20c 5%, #ffbf00 100%);
+  background-color: #cca20c;
+}
+
+#celcius:disabled {
+  box-shadow: inset 0px -3px 7px 0px #543602;
+  background: linear-gradient(to bottom, #594100 5%, #664f04 100%);
+  background-color: #594100;
+}
+
+#fahrenheit {
+  margin: 20px;
+  margin-left: 5px;
+  box-shadow: inset 0px -3px 7px 0px #da8e00;
+  background: linear-gradient(to bottom, #ffbf00 5%, #cca20c 100%);
+  border: 1px solid #0b0e07;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 9px 23px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #263666;
+}
+
+#fahrenheit:hover {
+  background: linear-gradient(to bottom, #cca20c 5%, #ffbf00 100%);
+  background-color: #cca20c;
+}
+
+#fahrenheit:disabled {
+  box-shadow: inset 0px -3px 7px 0px #543602;
+  background: linear-gradient(to bottom, #594100 5%, #664f04 100%);
+  background-color: #594100;
+}
+
+#run {
+  margin-top: 20px;
+  box-shadow: inset 0px -3px 7px 0px #da8e00;
+  background: linear-gradient(to bottom, #ffbf00 5%, #cca20c 100%);
+  border: 1px solid #0b0e07;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 9px 23px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #263666;
+}
+
+#run:hover {
+  background: linear-gradient(to bottom, #cca20c 5%, #ffbf00 100%);
+  background-color: #cca20c;
 }
 
 /*# sourceMappingURL=style.css.map */
