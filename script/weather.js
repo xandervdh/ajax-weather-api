@@ -12,6 +12,22 @@
         "July", "August", "September", "October", "November", "December"
     ];
 
+    document.getElementById("image").addEventListener("click", function (){
+        document.getElementById("cityImage").style.display = "block";
+    })
+
+    document.getElementById("close").addEventListener("click", function (){
+        document.getElementById("cityImage").style.display = "none";
+    })
+
+    document.getElementById("graph").addEventListener("click", function (){
+        document.getElementById("graphBox").style.display = "block";
+    })
+
+    document.getElementById("closing").addEventListener("click", function (){
+        document.getElementById("graphBox").style.display = "none";
+    })
+
     document.getElementById("celcius").addEventListener("click", function () {
         metric = true;
         unit = " \u00B0C";
@@ -28,6 +44,9 @@
 
     document.getElementById("run").addEventListener("click", function () {
         checkInput();
+        document.getElementById("image").disabled = true;
+        document.getElementById("graph").disabled = true;
+        document.getElementById("graph").disabled = false;
         document.getElementById("city").innerText = "";
         document.getElementById("weatherWeek").innerHTML = "";
         let units;
@@ -42,16 +61,50 @@
         fetchData(urlPicture, getUnsplash)
     })
 
+    function getGraph(){
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+        drawChart();
+    }
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['day', 'temperature'],
+            [weatherObj.dateNumber[0],  weatherObj.temp[0]],
+            [weatherObj.dateNumber[1],  weatherObj.temp[1]],
+            [weatherObj.dateNumber[2],  weatherObj.temp[2]],
+            [weatherObj.dateNumber[3],  weatherObj.temp[3]],
+            [weatherObj.dateNumber[4],  weatherObj.temp[4]],
+        ]);
+
+        var options = {
+            title: 'Company Performance',
+            curveType: 'function',
+            'width':600,
+            'height':500,
+            legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chartDiv'));
+
+        chart.draw(data, options);
+    }
+
+
     function fetchData(url, func) {
         fetch(url)
             .then(response => response.json())
             .then(data => func(data))
     }
 
-    function getUnsplash(data){
-        console.log(data);
+    function getUnsplash(data) {
         let url = data.urls.full;
-        console.log(url);
+        document.getElementById("imageUrl").setAttribute("src", url);
+        setTimeout(function (){
+            document.getElementById("image").disabled = false;
+        }, 1000)
     }
 
     function getOneCall(data) {
@@ -71,7 +124,6 @@
         } else {
             alert("this country doesn't exist! \n check if you made a mistake");
         }
-
     }
 
     function getClass(data) {
@@ -147,13 +199,13 @@
             let night = data.daily[i].temp.night;
             let morning = data.daily[i].temp.morn;
             let sumTemp = day + evening + night + morning;
-            let average = Math.floor(sumTemp/4);
+            let average = Math.floor(sumTemp / 4);
             array.temp.push("+- " + average + unit);
         }
         return array.temp;
     }
 
-    function getTempMin(data, array){
+    function getTempMin(data, array) {
         for (let i = 0; i < 5; i++) {
             let tempMin = data.daily[i].temp.min;
             array.tempMin.push("- " + tempMin + unit);
@@ -161,7 +213,7 @@
         return array.tempMin;
     }
 
-    function getTempMax(data, array){
+    function getTempMax(data, array) {
         for (let i = 0; i < 5; i++) {
             let tempMax = data.daily[i].temp.max;
             array.tempMax.push("+ " + tempMax + unit);
@@ -177,7 +229,7 @@
     }
 
     function getDate(data, array) {
-        for (let i = 0; i < 5; i++){
+        for (let i = 0; i < 5; i++) {
             let timestamp = data.daily[i].dt;
             let date = new Date(timestamp * 1000);
             let day = date.getDay();
@@ -188,7 +240,7 @@
         return array.date;
     }
 
-    function getNumberDate(data, array){
+    function getNumberDate(data, array) {
         for (let i = 0; i < 5; i++) {
             let timestamp = data.daily[i].dt;
             let date = new Date(timestamp * 1000);
@@ -205,7 +257,7 @@
         cityInput = cityInput.replace(/[0-9]/g, "");
         cityInput = cityInput.toLowerCase();
         cityInput = cityInput.replace(" ", "%20");
-        if (document.getElementById("countryCode")!== ""){
+        if (document.getElementById("countryCode") !== "") {
             countryCode = document.getElementById("countryCode").value;
             countryCode = countryCode.replace(/[^a-zA-Z0-9 -]/g, "");
             countryCode = countryCode.replace(/[0-9]/g, "");
