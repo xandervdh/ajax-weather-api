@@ -1,5 +1,5 @@
 (() => {
-    let graphData = {temp:[], day:[]};
+    let weatherObj = {};
     const key = config.API_KEY;
     const unsplashKey = config.UNSPLASH_KEY;
     let unit = " \u00B0C";
@@ -60,34 +60,23 @@
         fetchData(url, getOneCall);
         fetchData(urlPicture, getUnsplash)
         getGraph()
+
     })
 
     function getGraph() {
+        setTimeout(function (){
+
         let ctx = document.getElementById('myChart').getContext('2d');
         let myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: [weatherObj.dateNumber[0], weatherObj.dateNumber[1], weatherObj.dateNumber[2], weatherObj.dateNumber[3], weatherObj.dateNumber[4]],
                 datasets: [{
                     label: 'average temperature',
-                    data: [15, 65 ,98, 54 ,15, 87],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    data: [weatherObj.temp[0], weatherObj.temp[1], weatherObj.temp[2], weatherObj.temp[3], weatherObj.temp[4]],
+                    borderWidth: 1,
+                    fill: false,
+                    borderColor: 'rgba(255, 0, 0, 1)'
                 }]
             },
             options: {
@@ -100,6 +89,8 @@
                 }
             }
         });
+            console.log(temp)
+        }, 1000)
         setTimeout(function (){
             document.getElementById("graph").disabled = false;
         }, 1000);
@@ -139,7 +130,7 @@
     }
 
     function getClass(data) {
-        let weatherObj = new weather(data)
+        weatherObj = new weather(data)
         weatherObj.city = city;
         weatherObj.country = country;
         weatherObj.temp = getTemp(data, weatherObj);
@@ -148,8 +139,6 @@
         weatherObj.icon = getIcon(data, weatherObj);
         weatherObj.date = getDate(data, weatherObj);
         weatherObj.dateNumber = getNumberDate(data, weatherObj);
-        graphData.temp.push(weatherObj.temp);
-        graphData.day.push(weatherObj.dateNumber);
         printWeek(weatherObj);
     }
 
