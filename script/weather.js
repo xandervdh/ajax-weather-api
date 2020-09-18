@@ -1,5 +1,5 @@
 (() => {
-    let graphData = [];
+    let graphData = {temp:[], day:[]};
     const key = config.API_KEY;
     const unsplashKey = config.UNSPLASH_KEY;
     let unit = " \u00B0C";
@@ -47,7 +47,6 @@
         checkInput();
         document.getElementById("image").disabled = true;
         document.getElementById("graph").disabled = true;
-        document.getElementById("graph").disabled = false;
         document.getElementById("city").innerText = "";
         document.getElementById("weatherWeek").innerHTML = "";
         let units;
@@ -61,19 +60,17 @@
         fetchData(url, getOneCall);
         fetchData(urlPicture, getUnsplash)
         getGraph()
-        console.log(graphData[day]);
     })
 
     function getGraph() {
-        //let day = '"' + array.day[0] + '"';
         let ctx = document.getElementById('myChart').getContext('2d');
         let myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'average temperature',
+                    data: [15, 65 ,98, 54 ,15, 87],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -103,6 +100,9 @@
                 }
             }
         });
+        setTimeout(function (){
+            document.getElementById("graph").disabled = false;
+        }, 1000);
     }
 
     function fetchData(url, func) {
@@ -139,7 +139,6 @@
     }
 
     function getClass(data) {
-        console.log(data);
         let weatherObj = new weather(data)
         weatherObj.city = city;
         weatherObj.country = country;
@@ -149,9 +148,8 @@
         weatherObj.icon = getIcon(data, weatherObj);
         weatherObj.date = getDate(data, weatherObj);
         weatherObj.dateNumber = getNumberDate(data, weatherObj);
-        graphData.temp = weatherObj.temp;
-        graphData.day = weatherObj.dateNumber;
-        console.log(weatherObj)
+        graphData.temp.push(weatherObj.temp);
+        graphData.day.push(weatherObj.dateNumber);
         printWeek(weatherObj);
     }
 
@@ -187,7 +185,7 @@
 
             let tempAverage = document.createElement("p");
             tempAverage.classList.add("card-text", "averageTemp");
-            tempAverage.textContent = array.temp[i];
+            tempAverage.textContent = "+- " + array.temp[i] + unit;
             cardBody.append(tempAverage);
 
             let tempMin = document.createElement("p");
@@ -213,7 +211,7 @@
             let morning = data.daily[i].temp.morn;
             let sumTemp = day + evening + night + morning;
             let average = Math.floor(sumTemp / 4);
-            array.temp.push("+- " + average + unit);
+            array.temp.push(average);
         }
         return array.temp;
     }
