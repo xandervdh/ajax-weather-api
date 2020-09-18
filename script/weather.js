@@ -1,4 +1,5 @@
 (() => {
+    let graphData = [];
     const key = config.API_KEY;
     const unsplashKey = config.UNSPLASH_KEY;
     let unit = " \u00B0C";
@@ -12,19 +13,19 @@
         "July", "August", "September", "October", "November", "December"
     ];
 
-    document.getElementById("image").addEventListener("click", function (){
+    document.getElementById("image").addEventListener("click", function () {
         document.getElementById("cityImage").style.display = "block";
     })
 
-    document.getElementById("close").addEventListener("click", function (){
+    document.getElementById("close").addEventListener("click", function () {
         document.getElementById("cityImage").style.display = "none";
     })
 
-    document.getElementById("graph").addEventListener("click", function (){
+    document.getElementById("graph").addEventListener("click", function () {
         document.getElementById("graphBox").style.display = "block";
     })
 
-    document.getElementById("closing").addEventListener("click", function (){
+    document.getElementById("closing").addEventListener("click", function () {
         document.getElementById("graphBox").style.display = "none";
     })
 
@@ -59,39 +60,50 @@
         let urlPicture = "https://api.unsplash.com/photos/random?query=" + cityInput + "&client_id=" + unsplashKey;
         fetchData(url, getOneCall);
         fetchData(urlPicture, getUnsplash)
+        getGraph()
+        console.log(graphData[day]);
     })
 
-    function getGraph(){
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-
-        drawChart();
+    function getGraph() {
+        //let day = '"' + array.day[0] + '"';
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
     }
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['day', 'temperature'],
-            [weatherObj.dateNumber[0],  weatherObj.temp[0]],
-            [weatherObj.dateNumber[1],  weatherObj.temp[1]],
-            [weatherObj.dateNumber[2],  weatherObj.temp[2]],
-            [weatherObj.dateNumber[3],  weatherObj.temp[3]],
-            [weatherObj.dateNumber[4],  weatherObj.temp[4]],
-        ]);
-
-        var options = {
-            title: 'Company Performance',
-            curveType: 'function',
-            'width':600,
-            'height':500,
-            legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('chartDiv'));
-
-        chart.draw(data, options);
-    }
-
 
     function fetchData(url, func) {
         fetch(url)
@@ -102,7 +114,7 @@
     function getUnsplash(data) {
         let url = data.urls.full;
         document.getElementById("imageUrl").setAttribute("src", url);
-        setTimeout(function (){
+        setTimeout(function () {
             document.getElementById("image").disabled = false;
         }, 1000)
     }
@@ -137,7 +149,8 @@
         weatherObj.icon = getIcon(data, weatherObj);
         weatherObj.date = getDate(data, weatherObj);
         weatherObj.dateNumber = getNumberDate(data, weatherObj);
-
+        graphData.temp = weatherObj.temp;
+        graphData.day = weatherObj.dateNumber;
         console.log(weatherObj)
         printWeek(weatherObj);
     }
