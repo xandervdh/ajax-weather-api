@@ -5,12 +5,6 @@ body {
   background-size: cover;
 }
 
-@media only screen and (max-width: 1120px) {
-  body {
-    background-color: black;
-    background-image: none;
-  }
-}
 #input {
   width: 80%;
   margin: auto;
@@ -32,9 +26,12 @@ body {
 
 .card {
   margin-left: 2.5%;
+  margin-bottom: 2.5%;
+  padding-top: 2.5%;
   border: none;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0);
+  color: black;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 #city {
@@ -42,13 +39,18 @@ body {
   margin-top: 2%;
 }
 
-.averageTemp {
-  font-size: 2em;
-}
-
 .card-header {
+  font-size: 250%;
   border: none;
   background-color: rgba(255, 255, 255, 0);
+}
+
+.card-body {
+  font-size: 70%;
+}
+
+.card-text {
+  font-size: 150%;
 }
 
 #cityInput {
@@ -157,6 +159,36 @@ body {
 #run:hover {
   background: linear-gradient(to bottom, #cca20c 5%, #ffbf00 100%);
   background-color: #cca20c;
+}
+
+@media only screen and (max-width: 1120px) {
+  body {
+    background-color: black;
+    background-image: none;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #degrees {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 1700px) {
+  .dateNumber {
+    display: block;
+  }
+
+  .dateText {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1700px) {
+  .dateNumber {
+    display: none;
+  }
+
+  .dateText {
+    display: block;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -50,7 +50,6 @@
 
     function getUnsplash(data){
         console.log(data);
-        let target = document.getElementById("weather");
         let url = data.urls.full;
         console.log(url);
     }
@@ -81,8 +80,12 @@
         weatherObj.city = city;
         weatherObj.country = country;
         weatherObj.temp = getTemp(data, weatherObj);
+        weatherObj.tempMin = getTempMin(data, weatherObj);
+        weatherObj.tempMax = getTempMax(data, weatherObj);
         weatherObj.icon = getIcon(data, weatherObj);
         weatherObj.date = getDate(data, weatherObj);
+        weatherObj.dateNumber = getNumberDate(data, weatherObj);
+
         console.log(weatherObj)
         printWeek(weatherObj);
     }
@@ -108,20 +111,36 @@
             card.append(cardBody);
 
             let cardHeader = document.createElement("h3");
-            cardHeader.classList.add("card-header");
+            cardHeader.classList.add("card-header", "dateText");
             cardHeader.textContent = array.date[i];
             cardBody.append(cardHeader);
 
-            let text = document.createElement("p");
-            text.classList.add("card-text", "averageTemp");
-            text.textContent = array.temp[i];
-            cardBody.append(text);
+            let cardHeaderTwo = document.createElement("h3");
+            cardHeaderTwo.classList.add("card-header", "dateNumber");
+            cardHeaderTwo.textContent = array.dateNumber[i];
+            cardBody.append(cardHeaderTwo);
+
+            let tempAverage = document.createElement("p");
+            tempAverage.classList.add("card-text", "averageTemp");
+            tempAverage.textContent = array.temp[i];
+            cardBody.append(tempAverage);
+
+            let tempMin = document.createElement("p");
+            tempMin.classList.add("card-text");
+            tempMin.textContent = array.tempMin[i];
+            cardBody.append(tempMin);
+
+            let tempMax = document.createElement("p");
+            tempMax.classList.add("card-text");
+            tempMax.textContent = array.tempMax[i];
+            cardBody.append(tempMax);
 
             weekTarget.appendChild(card);
         }
     }
 
     function getTemp(data, array) {
+
         for (let i = 0; i < 5; i++) {
             let day = data.daily[i].temp.day;
             let evening = data.daily[i].temp.eve;
@@ -129,9 +148,25 @@
             let morning = data.daily[i].temp.morn;
             let sumTemp = day + evening + night + morning;
             let average = Math.floor(sumTemp/4);
-            array.temp.push("average " + average + unit);
+            array.temp.push("+- " + average + unit);
         }
         return array.temp;
+    }
+
+    function getTempMin(data, array){
+        for (let i = 0; i < 5; i++) {
+            let tempMin = data.daily[i].temp.min;
+            array.tempMin.push("- " + tempMin + unit);
+        }
+        return array.tempMin;
+    }
+
+    function getTempMax(data, array){
+        for (let i = 0; i < 5; i++) {
+            let tempMax = data.daily[i].temp.max;
+            array.tempMax.push("+ " + tempMax + unit);
+        }
+        return array.tempMax;
     }
 
     function getIcon(data, array) {
@@ -151,6 +186,17 @@
             array.date.push(days[day] + " " + dayNumber + " " + monthNames[month]);
         }
         return array.date;
+    }
+
+    function getNumberDate(data, array){
+        for (let i = 0; i < 5; i++) {
+            let timestamp = data.daily[i].dt;
+            let date = new Date(timestamp * 1000);
+            let dayNumber = date.getDate();
+            let month = date.getMonth();
+            array.dateNumber.push(dayNumber + "/" + month);
+        }
+        return array.dateNumber;
     }
 
     function checkInput() {
